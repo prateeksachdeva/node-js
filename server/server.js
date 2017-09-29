@@ -16,6 +16,13 @@ todos.save().then((result)=>{
   res.status(400).send(e);
 });
 });
+app.get('/todos',(req,res)=>{
+Todo.find().then((todos)=>{
+    res.send({todos});
+},(e)=>{
+  res.status(400).send(e);
+}) ;
+});
 app.listen(300,()=>{
     console.log('Started on port 300');
 });
