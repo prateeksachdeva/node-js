@@ -1,44 +1,21 @@
-var mongoose=require('mongoose');
-mongoose.Promise=global.Promise;
-mongoose.connect('mongodb://localhost:27017/Todos');
+var express=require('express');
+var bodyParser=require('body-parser');
 
-// var Todos=mongoose.model('Todos',{
-//   text:{
-//    type:String,
-//    required:true,
-//    minlength:1,
-//    trim:true
-//  },
-//  completed:{
-//    type:Boolean,
-//    default:true
-//  },
-// completedAt:{
-//   type:Number,
-//   default:null
-// }
-// });
-// // var newTo=new Todos({
-// //   completedAt:223
-// // });
-// var newTo=new Todos({
-//
-//   text:'asdjasxsj'
-//
-// });
-var Users=mongoose.model('Users',{
-  email:{
-    type:String,
-    required:true,
-    trim:true,
-    minlength:1
-  }
+var {mongoose}=require('./db/mongoose');
+var {Todo}=require('./model/todo');
+var {user}=require('./model/user');
+var app=express();
+app.use(bodyParser.json());
+app.post('/todos',(req,res)=>{
+var todos=new Todo({
+  text:req.body.text
 });
-var newTo=new Users({
-  email:'jakdjakl'
+todos.save().then((result)=>{
+  res.send(result);
+} ,(e)=>{
+  res.status(400).send(e);
 });
-newTo.save().then((doc)=>{
-  console.log('sadam',doc);
-},(e)=>{
-  console.log('Unable to save');
+});
+app.listen(300,()=>{
+    console.log('Started on port 300');
 });
