@@ -6,6 +6,7 @@ var {mongoose}=require('./db/mongoose');
 var {Todo}=require('./model/todo');
 var {user}=require('./model/user');
 var app=express();
+const port =process.env.PORT || 300;
 app.use(bodyParser.json());
 app.post('/todos',(req,res)=>{
 var todos=new Todo({
@@ -38,6 +39,6 @@ Todo.findById(id).then((resu)=>{
   res.status(400).send();
 });
 });
-app.listen(300,()=>{
-    console.log('Started on port 300');
+app.listen(port,()=>{
+    console.log(`Started up at port ${port}`);
 });
